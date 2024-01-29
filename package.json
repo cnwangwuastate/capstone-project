@@ -1,0 +1,29 @@
+{
+  "name": "capstone",
+  "version": "1.0.0",
+  "description": "capstone project for our senior year CS capstone class",
+  "main": "app.js",
+  "scripts": {
+    "test": "test",
+    "dev": "nodemon app.js",
+    "start": "app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BradleyHale/2024-capstone-project.git"
+  },
+  "author": "Bradley Hale, Robin Ombiri, Chidozie Nwangwu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BradleyHale/2024-capstone-project/issues"
+  },
+  "homepage": "https://github.com/BradleyHale/2024-capstone-project#readme",
+  "dependencies": {
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "nodemon": "^3.0.3"
+  }
+}
