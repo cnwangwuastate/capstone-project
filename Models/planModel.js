@@ -8,16 +8,8 @@ function testFunction() {
     return result;
 }
 
-/* NOTE: currently the database and their model functions store
-   length, width, and height (imperial measurements) as a total of inches,
-   which are divided by 12 and displayed. it may be more concise to go back
-   later and redesign them to store feet and inches seperately
-*/
-
 function searchByLength(upper, lower) {
-    const sql = `SELECT *, length / 12 AS lengthFt, length % 12 AS lengthIn,
-     width / 12 AS widthFt, width % 12 AS widthIn,
-    FROM plans WHERE length BETWEEN @upper AND @lower`;
+    const sql = `SELECT * FROM plans WHERE lengthFt BETWEEN @upper AND @lower`;
     const stmt = db.prepare(sql);
     const result = stmt.all({
         "upper":upper,
@@ -28,10 +20,7 @@ function searchByLength(upper, lower) {
 }
 
 function searchByWidth(upper, lower) {
-    const sql = `SELECT *, length / 12 AS lengthFt,
-     length % 12 AS lengthIn, width / 12 AS widthFt, width % 12 AS widthIn,
-     height % 12 AS heightIn, height / 12 AS heightFt,
-     FROM plans WHERE width BETWEEN @upper AND @lower`;
+    const sql = `SELECT * FROM plans WHERE widthFt BETWEEN @upper AND @lower`;
     const stmt = db.prepare(sql);
     const result = stmt.all({
        "upper":upper,
@@ -42,10 +31,7 @@ function searchByWidth(upper, lower) {
 }
 
 function searchByHeight(upper, lower) {
-    const sql = `SELECT *, length / 12 AS lengthFt,
-     length % 12 AS lengthIn, width / 12 AS widthFt, width % 12 AS widthIn,
-     height % 12 AS heightIn, height / 12 AS heightFt,
-     FROM plans WHERE width BETWEEN @upper AND @lower`;
+    const sql = `SELECT * FROM plans WHERE heightFt BETWEEN @upper AND @lower`;
     const stmt = db.prepare(sql);
     const result = stmt.all({
        "upper":upper,
@@ -56,10 +42,7 @@ function searchByHeight(upper, lower) {
 }
 
 function searchBySQFT(upper, lower) {
-    const sql = `SELECT *, length / 12 AS lengthFt, length % 12 AS lengthIn,
-     width / 12 AS widthFt, width % 12 AS widthIn,
-     height % 12 AS heightIn, height / 12 AS heightFt,
-     FROM plans WHERE overallSQFT BETWEEN @upper AND @lower`;
+    const sql = `SELECT * FROM plans WHERE overallSQFT BETWEEN @upper AND @lower`;
     const stmt = db.prepare(sql);
     const result = stmt.all({
         "upper":upper,
@@ -70,10 +53,7 @@ function searchBySQFT(upper, lower) {
 }
 
 function searchByFloors(floors) {
-    const sql = `SELECT *, length / 12 AS lengthFt, length % 12 AS lengthIn, 
-     width / 12 AS widthFt, width % 12 AS widthIn,
-     height % 12 AS heightIn, height / 12 AS heightFt, 
-     FROM plans WHERE floors=@floors`;
+    const sql = `SELECT * FROM plans WHERE floors=@floors`;
     const stmt = db.prepare(sql);
     const result = stmt.all({
         "floors":floors
@@ -95,5 +75,6 @@ module.exports = {
     searchByLength,
     searchByWidth,
     searchBySQFT,
+    getPlanByID,
     searchByHeight
 }

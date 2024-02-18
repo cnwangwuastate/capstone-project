@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS plans (
     planID TEXT PRIMARY KEY,
     overallSQFT INTEGER NOT NULL,
-    length INTEGER,
-    width INTEGER,
-    height INTEGER,
-    floors INTEGER NOT NULL DEFAULT 1,
-    buildingType TEXT,
-    bathrooms INTEGER DEFAULT 1
-    specialFeatures TEXT
+    lengthFt INTEGER,
+    lengthIn INTEGER,
+    widthFt INTEGER,
+    widthIn INTEGER,
+    heightFt INTEGER,
+    heightIn INTEGER,
+    floors INTEGER NOT NULL DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS Users (
