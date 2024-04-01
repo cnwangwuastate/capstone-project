@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>search Page</title>
+  </head>
+  <body>
+    <form action="/api/search" method ="get" id="searchByOperations">
+      <label for="SQFT">SQFT</label>
+      <input type="checkbox" id="SQFT" name="searchOperations" value="searchBySQFT">
+      <input type="number" id="SQFTLower" name="SQFTLower" placeholder="minimum ft.">
+      <input type="number" id="SQFTUpper" name="SQFTUpper" placeholder="maximum ft." ><br><br>
+
+      <label for="Width">Width</label>
+      <input type="checkbox" id="Width" name="searchOperations" value="searchByWidth">
+      <input type="number" id="widthLower" name="widthLower" placeholder="minimum ft.">
+      <input type="number" id="widthUpper" name="widthUpper" placeholder="maximum ft."><br><br>
+
+      <label for="Length">Length</label>
+      <input type="checkbox" id="Length" name="searchOperations" value="searchByLength">
+      <input type="number" id="lengthLower" name="lengthLower" placeholder="minimum ft.">
+      <input type="number" id="lengthUpper" name="lengthUpper" placeholder="maximum ft."><br><br>
+
+      <label for="Height">Height</label>
+      <input type="checkbox" id="height" name="searchOperations" value="searchByHeight">
+      <input type="number" id="HeightLower" name="HeightLower" placeholder="minimum ft.">
+      <input type="number" id="HeightUpper" name="HeightUpper" placeholder="maximum ft."><br><br>
+      <input type="submit" />
+    <p>this is just a placeholder for the frontend</p>
+  </body>
+</html>

@@ -1,9 +1,9 @@
 "use strict"
-const planModel = rquire(".//Models/planModel");
+const planModel = require("../Models/planModel");
 
 async function searchByOperations(req,res) {
     let {SQFTUpper,SQFTLower,widthUpper,widthLower,lengthUpper,lengthLower,heightUpper,heightLower,floors,buildingType,searchOperations} = req.query;
-    operations = req.query.searchOperations;
+    let operations = req.query.searchOperations;
     /*
         searchOperations is supposed to be an array of strings. checboxes return
         as arrays of strings ONLY if multiple boxes are checked. the block below
@@ -14,10 +14,8 @@ async function searchByOperations(req,res) {
         operations = [operations]
     }
     // this just logs the request query for debugging
-    console.log(operations);
-    console.log(req.query);
-    // total results of the whole search query
-    let results = [];
+    // console.log(operations);----------
+    // console.log(req.query);-----------
     /*
         all of the input values except for searchOperations need to be parsed from
         strings to integers in order to be fed to the database
@@ -31,6 +29,8 @@ async function searchByOperations(req,res) {
     heightUpper = parseInt(heightUpper);
     heightLower = parseInt(heightLower);
     floors = parseInt(floors);
+
+    let results = planModel.generalSearch(req.query,operations);
     /*
         currentResults are the results gotten from each iteration of this loop.
         the function will go through each element in the "operations" array and for each element
@@ -43,27 +43,27 @@ async function searchByOperations(req,res) {
         to be changed so that it exclusively returns values that meet all critiera,
         since most people search by their given constraints for a reason. 
     */
-    for(let i = 0; i < operations.length; i++) {
-        let currentResults;
-        if (operations[i] === "searchBySQFT") {
-            currentResults = planModel.searchBySQFT(SQFTLower,SQFTUpper);
-        } else if (operations[i] === "searchByWidth") {
-            currentResults = planModel.searchByWidth(widthLower,widthUpper);
-        } else if (operations[i] === "searchByLength") {
-            currentResults = planModel.searchByLength(lengthLower,lengthUpper);
-        } else if (operations[i] === "searchByHeight") {
-            currentResults = planModel.searchBySidewallLength(heightLower, heightUpper);
-        } else if (operations[i] === "searchByFloors") {
-            currentResults = planModel.searchByFloors(floors);
-        } else {
-            // console the results for debugging and return 404 if the operation input isn't valid
-            console.log(results);
-            return res.sendStatus(404);
-        }
-        results = [...results, currentResults];
-    }
+    // for(let i = 0; i < operations.length; i++) {
+    //     let currentResults;
+    //     if (operations[i] === "searchBySQFT") {
+    //         currentResults = planModel.searchBySQFT(SQFTLower,SQFTUpper);
+    //     } else if (operations[i] === "searchByWidth") {
+    //         currentResults = planModel.searchByWidth(widthLower,widthUpper);
+    //     } else if (operations[i] === "searchByLength") {
+    //         currentResults = planModel.searchByLength(lengthLower,lengthUpper);
+    //     } else if (operations[i] === "searchByHeight") {
+    //         currentResults = planModel.searchBySidewallLength(heightLower, heightUpper);
+    //     } else if (operations[i] === "searchByFloors") {
+    //         currentResults = planModel.searchByFloors(floors);
+    //     } else {
+    //         // console the results for debugging and return 404 if the operation input isn't valid
+    //         console.log(results);
+    //         return res.sendStatus(404);
+    //     }
+    //     results = [...results, currentResults];
+    // }
     // console the search results for debugging
-    console.log(results);
+    // console.log(results);-------------- uncomment this later for testing purposes
     // if results aren't defined then return error 404
     if(!results) {
         return res.sendStatus(404);

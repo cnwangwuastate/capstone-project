@@ -5,64 +5,64 @@ function generalSearch(params, searchOperations = []) {
     let { SQFTLower, SQFTUpper, lengthUpper, lengthLower, widthUpper, widthLower, HeightUpper, HeightLower, floors} = params;
     let conditions = [];
     let args = {};
-    console.log(params);
+    //console.log(params);
     
     // Add conditions based on search operations
     searchOperations.forEach(operation => {
         switch (operation) {
             case 'searchBySQFT':
                 if (SQFTLower !== undefined && SQFTUpper !== undefined) {
-                    conditions.push(`overallSQF <= @SQFTUpper`);
-                    conditions.push(`overallSQF >= @SQFTLower`);
-                    args['@SQFTLower'] = SQFTLower;
-                    args['@SQFTUpper'] = SQFTUpper;
+                    conditions.push(`overallSQFT >= @SQFTLower`);
+                    conditions.push(`overallSQFT <= @SQFTUpper`);
+                    args['SQFTLower'] = SQFTLower;
+                    args['SQFTUpper'] = SQFTUpper;
                 }
                 break;
             case 'searchByWidth':
                 if (widthLower !== undefined && widthUpper !== undefined) {
-                    conditions.push(`width <= @widthUpper`);
-                    conditions.push(`width >= @widthLower`);
-                    args['@widthLower'] = widthLower;
-                    args['@widthUpper'] = widthUpper;
+                    conditions.push(`widthFt <= @widthUpper`);
+                    conditions.push(`widthFt >= @widthLower`);
+                    args['widthLower'] = widthLower;
+                    args['widthUpper'] = widthUpper;
                 }
                 break;
             case 'searchByLength':
                 if (lengthLower !== undefined && lengthUpper !== undefined) {
-                    conditions.push(`length <= @lengthUpper`);
-                    conditions.push(`length >= @lengthLower`);
-                    args['@lengthLower'] = lengthLower;
-                    args['@lengthUpper'] = lengthUpper;
+                    conditions.push(`lengthFt <= @lengthUpper`);
+                    conditions.push(`lengthFt >= @lengthLower`);
+                    args['lengthLower'] = lengthLower;
+                    args['lengthUpper'] = lengthUpper;
                 }
                 break;
             case 'searchByHeight':
                 if (HeightLower !== undefined && HeightUpper !== undefined) {
-                    conditions.push(`Height <= @HeightUpper`);
-                    conditions.push(`Height >= @HeightLower`);
-                    args['@HeightLower'] = HeightLower;
-                    args['@HeightUpper'] = HeightUpper;
+                    conditions.push(`HeightFt <= @HeightUpper`);
+                    conditions.push(`HeightFt >= @HeightLower`);
+                    args['HeightLower'] = HeightLower;
+                    args['HeightUpper'] = HeightUpper;
                 }
                 break;
 
             case 'searchByFloors':
                 if (floors !== undefined) {
-                    conditions.push(`stories = @floors`);
-                    args['@floors'] = floors;
+                    conditions.push(`floors = @floors`);
+                    args['floors'] = floors;
                 }
                 break;
         }
     });
 
-
+    console.log("current conditions: ", conditions)
+    console.log("args: ", args)
     // Construct the WHERE clause
     let whereClause = '';
     if (conditions.length > 0) {
         whereClause = 'WHERE ' + conditions.join(' AND ');
     }
+    console.log("current Where Clause: ", whereClause)
 
     // Prepare and execute SQL query
-    const sqlQuery = `BEGIN TRANSACTION;
-    SELECT * FROM plans ${whereClause}
-    END TRANSACTION`;
+    const sqlQuery = `SELECT * FROM plans ${whereClause}`;
     const stmt = db.prepare(sqlQuery);
     const result = stmt.all(args);
 

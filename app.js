@@ -11,12 +11,17 @@ app.use(express.static("public", {
 app.set('view engine', 'ejs');
 
 // validator
+const planController = require("./Controllers/planController");
 
 // controller
 
+//
 app.get("/", (req, res) => {
     console.log("this is a test");
 });
+
+app.get("/api/search", planController.searchByOperations);
+app.get("/results/:planID",planController.renderSingleResult);
 
 const {PORT} = process.env;
 app.listen(PORT, () => {

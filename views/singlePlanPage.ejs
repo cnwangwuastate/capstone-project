@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>plan</title>
+</head>
+<body>
+    <% if (!plan) { %>
+        <h1>Plan not found</h1>
+    <% } else { %>
+        <div class="row">
+            <p><%= "Plan ID: " +  plan.planID %></p>
+            <p><%= "Overall Square Feet: " + plan.overallSQFT %></p>
+        </div>
+        <div class="row">
+            <p><%= "Length: " + plan.lengthFt + " ft " + plan.lengthIn + " in" %></p>
+            <p><%= "Width: " + plan.widthFt + " ft " + plan.widthIn + " in" %></p>
+            <p><%= "Height: " + plan.heightFt + " ft " + plan.heightIn + " in" %></p>
+        </div>
+        <div class="row">
+            <p> <%= "floors: " + plan.floors %></p>
+        </div>
+    <% } %>
+</body>
+</html>
