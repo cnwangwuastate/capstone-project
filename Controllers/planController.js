@@ -72,6 +72,27 @@ async function searchByOperations(req,res) {
     // the whole list of search results. 
     res.render("results", {"results": results});
 }
+
+function addToPlan(req, res) {
+    let { overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.query;
+    
+    // Parse individual parameters to integers
+    overallSQFT = parseInt(overallSQFT);
+    lengthFt = parseInt(lengthFt);
+    lengthIn = parseInt(lengthIn);
+    widthFt = parseInt(widthFt);
+    widthIn = parseInt(widthIn);
+    heightFt = parseInt(heightFt);
+    heightIn = parseInt(heightIn);
+    floors = parseInt(floors);
+    console.log(req.query);
+
+    // Call addPlan with an object containing parsed parameters
+    planModel.addPlan({ overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors });
+    
+    // Send response
+    return res.json({ message: "Plan added successfully" });
+}
 // this will also allow us to render individual search results, so that a user
 // can click on whatever number they want and get more detailed information about
 // that plan. 
@@ -85,5 +106,6 @@ function renderSingleResult(req,res) {
 
 module.exports = {
     searchByOperations,
-    renderSingleResult
+    renderSingleResult,
+    addToPlan,
 }

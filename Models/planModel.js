@@ -69,6 +69,17 @@ function generalSearch(params, searchOperations = []) {
     return result;
 }
 
+function addPlan(data) {
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+
+    const sqlQuery = `INSERT INTO plans (${keys.join(', ')}) VALUES (${keys.map(() => '?').join(', ')})`;
+
+    const stmt = db.prepare(sqlQuery);
+    stmt.run(...values);
+
+}
+
 /*
     MODIFY DATABASE:
     INSERT INTO plans(columns) VALUES (values)
@@ -90,42 +101,42 @@ function generalSearch(params, searchOperations = []) {
 
 function editPlan(planID, editParams) {
     let setStatements = [];
-    let args = { "@planID": planID };
+    let args = { "planID": planID };
 
     // Add conditions based on edit parameters
     Object.entries(editParams).forEach(([key, value]) => {
         switch (key) {
             case 'overallSQFT':
                 setStatements.push(`overallSQFT = @overallSQFT`);
-                args['@overallSQFT'] = value;
+                args['overallSQFT'] = value;
                 break;
             case 'lengthFt':
                 setStatements.push(`lengthFt = @lengthFt`);
-                args['@lengthFt'] = value;
+                args['lengthFt'] = value;
                 break;
             case 'lengthIn':
                 setStatements.push(`lengthIn = @lengthIn`);
-                args['@lengthIn'] = value;
+                args['lengthIn'] = value;
                 break;
             case 'widthFt':
                 setStatements.push(`widthFt = @widthFt`);
-                args['@widthFt'] = value;
+                args['widthFt'] = value;
                 break;
             case 'widthIn':
                 setStatements.push(`widthIn = @widthIn`);
-                args['@widthIn'] = value;
+                args['widthIn'] = value;
                 break;
             case 'heightFt':
                 setStatements.push(`heightFt = @heightFt`);
-                args['@heightFt'] = value;
+                args['heightFt'] = value;
                 break;
             case 'heightIn':
                 setStatements.push(`heightIn = @heightIn`);
-                args['@heightIn'] = value;
+                args['heightIn'] = value;
                 break;
             case 'floors':
                 setStatements.push(`floors = @floors`);
-                args['@floors'] = value;
+                args['floors'] = value;
                 break;
         }
     });
@@ -212,7 +223,6 @@ function getPlanByID(planID) {
 }
 
 module.exports = {
-    generalSearch,
     testFunction,
     searchByFloors,
     searchByWidth,
@@ -221,5 +231,6 @@ module.exports = {
     searchByHeight,
     generalSearch,
     deletePlan,
-    editPlan
+    editPlan,
+    addPlan
 }

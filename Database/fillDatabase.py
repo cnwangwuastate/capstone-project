@@ -5,6 +5,7 @@ conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
 
 cursor.execute("CREATE TABLE IF NOT EXISTS plans (planID TEXT PRIMARY KEY, overallSQFT INTEGER, lengthFt INTEGER, lengthIn INTEGER, widthFt INTEGER, widthIn INTEGER, heightFt INTEGER, heightIn INTEGER, floors INTEGER NOT NULL DEFAULT 1)")
+cursor.execute("CREATE TABLE IF NOT EXISTS Users (userID TEXT PRIMARY KEY, email TEXT UNIQUE, passwordHash TEXT)")
 
 def parse_and_insert(line):
     planID, overallSQFT, length, width, height, floors = line
