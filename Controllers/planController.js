@@ -74,9 +74,11 @@ async function searchByOperations(req,res) {
 }
 
 function addToPlan(req, res) {
-    let { overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.query;
+    console.log(req.body);
+    let { planID, overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.body;
     
     // Parse individual parameters to integers
+    planID = parseInt(planID);
     overallSQFT = parseInt(overallSQFT);
     lengthFt = parseInt(lengthFt);
     lengthIn = parseInt(lengthIn);
@@ -88,7 +90,7 @@ function addToPlan(req, res) {
     console.log(req.query);
 
     // Call addPlan with an object containing parsed parameters
-    planModel.addPlan({ overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors });
+    planModel.addPlan({ planID,overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors });
     
     // Send response
     return res.json({ message: "Plan added successfully" });
