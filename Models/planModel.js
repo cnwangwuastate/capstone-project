@@ -155,6 +155,33 @@ function editPlan(planID, editParams) {
     stmt.run(args);
 }
 
+function editPlan(planID, params) {
+    let {overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = params;
+    let updates = [];
+    let args = {'planID': planID };
+
+    if (overallSQFT != undefined) {
+        updates.push(`overallSQFT = @overallSQFT`);
+        args['overallSQFT'] = overallSQFT;
+    }
+    if (lengthFt != undefined) {
+        updates.push(`lengthFt = @lengthFt`);
+        args['lengthFt'] = lengthFt;
+    }
+    if (lengthIn != undefined) {
+        updates.push(`lengthIn = @lengthIn`);
+        args['lengthIn'] = lengthIn;
+    }
+    if (widthFt != undefined) {
+        updates.push(`widthFt = @widthFt`);
+        args['widthFt'] = widthFt;
+    }
+    if (widthIn != undefined) {
+        updates.push(`widthIn = @widthIn`);
+        args['widthIn'] = widthIn;
+    }
+}
+
 function testFunction() {
     const sql = `SELECT * FROM plans`;
     const stmt = db.prepare(sql);

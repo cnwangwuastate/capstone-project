@@ -13,9 +13,6 @@ async function searchByOperations(req,res) {
     if (typeof operations != "object") {
         operations = [operations]
     }
-    // this just logs the request query for debugging
-    // console.log(operations);----------
-    // console.log(req.query);-----------
     /*
         all of the input values except for searchOperations need to be parsed from
         strings to integers in order to be fed to the database
@@ -62,9 +59,6 @@ async function searchByOperations(req,res) {
     //     }
     //     results = [...results, currentResults];
     // }
-    // console the search results for debugging
-    // console.log(results);-------------- uncomment this later for testing purposes
-    // if results aren't defined then return error 404
     if(!results) {
         return res.sendStatus(404);
     }
@@ -73,7 +67,7 @@ async function searchByOperations(req,res) {
     res.render("results", {"results": results});
 }
 
-function addToPlan(req, res) {
+function addToDatabase(req, res) {
     console.log(req.body);
     let { planID, overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.body;
     
@@ -95,6 +89,25 @@ function addToPlan(req, res) {
     // Send response
     return res.json({ message: "Plan added successfully" });
 }
+
+function editPlan(req,res) {
+    console.log(req.body);
+    let { planID, overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.body;
+    planID = parseInt(planID);
+    overallSQFT = parseInt(overallSQFT);
+    lengthFt = parseInt(lengthFt);
+    lengthIn = parseInt(lengthIn);
+    widthFt = parseInt(widthFt);
+    widthIn = parseInt(widthIn);
+    heightFt = parseInt(heightFt);
+    heightIn = parseInt(heightIn);
+    floors = parseInt(floors);
+
+    
+
+
+}
+
 // this will also allow us to render individual search results, so that a user
 // can click on whatever number they want and get more detailed information about
 // that plan. 
@@ -106,8 +119,10 @@ function renderSingleResult(req,res) {
     res.render("singlePlanPage", {"plan":plan});
 }
 
+
 module.exports = {
     searchByOperations,
     renderSingleResult,
-    addToPlan,
+    addToDatabase,
+    editPlan
 }
