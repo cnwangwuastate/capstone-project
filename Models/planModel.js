@@ -99,68 +99,15 @@ function addPlan(data) {
     }
 */
 
-function editPlan(planID, editParams) {
-    let setStatements = [];
-    let args = { "planID": planID };
-
-    // Add conditions based on edit parameters
-    Object.entries(editParams).forEach(([key, value]) => {
-        switch (key) {
-            case 'overallSQFT':
-                setStatements.push(`overallSQFT = @overallSQFT`);
-                args['overallSQFT'] = value;
-                break;
-            case 'lengthFt':
-                setStatements.push(`lengthFt = @lengthFt`);
-                args['lengthFt'] = value;
-                break;
-            case 'lengthIn':
-                setStatements.push(`lengthIn = @lengthIn`);
-                args['lengthIn'] = value;
-                break;
-            case 'widthFt':
-                setStatements.push(`widthFt = @widthFt`);
-                args['widthFt'] = value;
-                break;
-            case 'widthIn':
-                setStatements.push(`widthIn = @widthIn`);
-                args['widthIn'] = value;
-                break;
-            case 'heightFt':
-                setStatements.push(`heightFt = @heightFt`);
-                args['heightFt'] = value;
-                break;
-            case 'heightIn':
-                setStatements.push(`heightIn = @heightIn`);
-                args['heightIn'] = value;
-                break;
-            case 'floors':
-                setStatements.push(`floors = @floors`);
-                args['floors'] = value;
-                break;
-        }
-    });
-
-    // Construct the SET clause
-    let setClause = '';
-    if (setStatements.length > 0) {
-        setClause = 'SET ' + setStatements.join(', ');
-    }
-
-    // Prepare and execute SQL query
-    const sqlQuery = `BEGIN TRANSACTION;
-    UPDATE plans ${setClause} WHERE planID = @planID
-    END TRANSACTION`;
-    const stmt = db.prepare(sqlQuery);
-    stmt.run(args);
-}
-
 function editPlan(planID, params) {
     let {overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = params;
+    console.log(params);
+    let setValues = [];
     let updates = [];
     let args = {'planID': planID };
 
     if (overallSQFT != undefined) {
+        setValues.push('overallSQFT');
         updates.push(`overallSQFT = @overallSQFT`);
         args['overallSQFT'] = overallSQFT;
     }
@@ -177,9 +124,34 @@ function editPlan(planID, params) {
         args['widthFt'] = widthFt;
     }
     if (widthIn != undefined) {
+        setValues.push('widthIn')
         updates.push(`widthIn = @widthIn`);
         args['widthIn'] = widthIn;
     }
+    if (heightFt != undefined) {
+        updates.push(`heightFt = @heightFt`);
+        args['heightFt'] = heightFt;
+    }
+    if (heightIn != undefined) {
+        updates.push(`heightIn = @heightIn`);
+        args['heightIn'] = heightIn;
+    }
+    if (floors != undefined) {
+        updates.push(`floors = @floors`);
+        args['floors'] = floors;
+    }
+    console.log("current updates", updates);
+    console.log("args", args);
+    const sqlQuery = `UPDATE plans SET ${updates} WHERE planID =@planID`;
+    console.log("sql query", sqlQuery);
+    const stmt = db.prepare(sqlQuery);
+    stmt.run(args);
+}
+
+function deletePlan(planID) {
+    const sql = `DELETE FROM plans WHERE planID =@planID`;
+    const stmt = db.prepare(sql);
+    stmt.run({"planID": planID});
 }
 
 function testFunction() {
@@ -187,16 +159,6 @@ function testFunction() {
     const stmt = db.prepare(sql);
     const result = stmt.all();
     return result;
-}
-
-function deletePlan(planID) {
-    const sql = `BEGIN TRANSACTION;
-    DELETE FROM plans WHERE planID=@planID;
-    END TRANSACTION;`;
-    const stmt = db.prepare(sql);
-    stmt.run({
-        "@planID": planID
-    });
 }
 
 function searchByWidth(upper, lower) {

@@ -26,6 +26,8 @@ app.get("/", (req, res) => {
 app.get("/api/search", planController.searchByOperations);
 app.get("/results/:planID",planController.renderSingleResult);
 app.post("/api/add",planController.addToDatabase);
+app.post("/api/edit",planController.editPlan);
+app.post("/api/delete", planController.deletePlan);
 
 const {PORT} = process.env;
 app.listen(PORT, () => {

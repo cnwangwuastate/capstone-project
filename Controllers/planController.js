@@ -92,7 +92,7 @@ function addToDatabase(req, res) {
 
 function editPlan(req,res) {
     console.log(req.body);
-    let { planID, overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.body;
+    let {planID,overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.body;
     planID = parseInt(planID);
     overallSQFT = parseInt(overallSQFT);
     lengthFt = parseInt(lengthFt);
@@ -103,10 +103,23 @@ function editPlan(req,res) {
     heightIn = parseInt(heightIn);
     floors = parseInt(floors);
 
-    
+    planModel.editPlan(req.body.planID,{overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt,heightIn, heightIn, floors});
+    return res.json({ message: "plan edited successfully"});
 
 
 }
+
+async function deletePlan(req, res) {
+    try {
+        const {planID} = req.body;
+        console.log(req.body);
+        await planModel.deletePlan(planID);
+        res.status(200).json({message: 'Plan deleted successfully'});
+        } catch (error) {
+            console.error('Error deleting plan:', error);
+            res.status(500).json({error: 'An error occured'});
+        }
+    }
 
 // this will also allow us to render individual search results, so that a user
 // can click on whatever number they want and get more detailed information about
@@ -124,5 +137,6 @@ module.exports = {
     searchByOperations,
     renderSingleResult,
     addToDatabase,
-    editPlan
+    editPlan,
+    deletePlan
 }
