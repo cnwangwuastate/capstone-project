@@ -63,8 +63,10 @@ async function searchByOperations(req,res) {
         return res.sendStatus(404);
     }
     // CJ, this'll be needed for the frontend. this will allow is to render
-    // the whole list of search results. 
-    res.render("results", {"results": results});
+    // the whole list of search results.
+    console.log(results);
+    return res.json(results);
+    //res.render("results", {"results": results});
 }
 
 function addToDatabase(req, res) {
@@ -91,21 +93,25 @@ function addToDatabase(req, res) {
 }
 
 function editPlan(req,res) {
-    console.log(req.body);
-    let {planID,overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.body;
-    planID = parseInt(planID);
-    overallSQFT = parseInt(overallSQFT);
-    lengthFt = parseInt(lengthFt);
-    lengthIn = parseInt(lengthIn);
-    widthFt = parseInt(widthFt);
-    widthIn = parseInt(widthIn);
-    heightFt = parseInt(heightFt);
-    heightIn = parseInt(heightIn);
-    floors = parseInt(floors);
-
-    planModel.editPlan(req.body.planID,{overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt,heightIn, heightIn, floors});
-    return res.json({ message: "plan edited successfully"});
-
+    try {
+        console.log(req.body);
+        let {planID,overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors } = req.body;
+        planID = parseInt(planID);
+        overallSQFT = parseInt(overallSQFT);
+        lengthFt = parseInt(lengthFt);
+        lengthIn = parseInt(lengthIn);
+        widthFt = parseInt(widthFt);
+        widthIn = parseInt(widthIn);
+        heightFt = parseInt(heightFt);
+        heightIn = parseInt(heightIn);
+        floors = parseInt(floors);
+    
+        planModel.editPlan(req.body.planID,{overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt,heightIn, heightIn, floors});
+        return res.json({ message: "plan edited successfully"});
+    } catch (error) {
+        console.error("Error editing plan:", error);
+        res.status(500).json({error: 'An error occured'});
+    }
 
 }
 
