@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS plans (
 
 CREATE TABLE IF NOT EXISTS Users (
     userID TEXT PRIMARY KEY,
-    email TEXT NOT NULL,
-    password TEXT NOT NULL
-
+    email TEXT UNIQUE,
+    passwordHash TEXT
 );

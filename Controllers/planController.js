@@ -89,6 +89,7 @@ function addToDatabase(req, res) {
     planModel.addPlan({ planID,overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt, heightIn, floors });
     
     // Send response
+    res.redirect("/add");
     return res.json({ message: "Plan added successfully" });
 }
 
@@ -107,6 +108,7 @@ function editPlan(req,res) {
         floors = parseInt(floors);
     
         planModel.editPlan(req.body.planID,{overallSQFT, lengthFt, lengthIn, widthFt, widthIn, heightFt,heightIn, heightIn, floors});
+        res.redirect("/edit");
         return res.json({ message: "plan edited successfully"});
     } catch (error) {
         console.error("Error editing plan:", error);
