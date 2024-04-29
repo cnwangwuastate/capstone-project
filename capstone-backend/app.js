@@ -4,14 +4,24 @@ const path = require('path');
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const cors = require("cors");
 app.use(express.static("public", {
    index: "index.html",
    extensions: ['html']
 }));
 
+// Allow requests from specific origins
+const corsOptions = {
+  origin: 'http://localhost:8080', // Replace with your client's origin
+};
+
+// Use CORS middleware with options
+app.use(cors(corsOptions))
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
+app.use(express.static(path.join(__dirname, 'capstone-frontend', 'dist')));
 
 // validator
 const planController = require("./Controllers/planController");
